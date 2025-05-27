@@ -1,4 +1,3 @@
-using System.Xml;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -32,10 +31,13 @@ public class Player : MonoBehaviour
             Movement();
         }
         TryJump();
+
+        Attack();
     }
 
     void Movement()
     {
+        /*
         Vector2 moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
 
         Quaternion cameraRotation = Quaternion.Euler(0, cameraHolder.eulerAngles.y, 0);
@@ -44,6 +46,25 @@ public class Player : MonoBehaviour
         Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
 
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
+
+        Vector3 velocity = moveDirection * _moveSpeed;
+        velocity.y = _rb.linearVelocity.y;
+
+        _rb.linearVelocity = velocity;
+        */
+
+        Vector2 moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
+
+        Quaternion cameraRotation = Quaternion.Euler(0, cameraHolder.eulerAngles.y, 0);
+        Vector3 forward = cameraRotation * Vector3.forward;
+        Vector3 right = cameraRotation * Vector3.right;
+        Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
+
+        // 入力があるときだけ回転させる
+        if (moveInput.sqrMagnitude > 0.01f) // ≒ moveInput != Vector2.zero
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
+        }
 
         Vector3 velocity = moveDirection * _moveSpeed;
         velocity.y = _rb.linearVelocity.y;
@@ -70,6 +91,16 @@ public class Player : MonoBehaviour
         {
             _groundedJumpDelay = _firstgroundedJumpDelay;
             _pressdJump = false;
+        }
+    }
+
+    void Attack()
+    {
+        float jumpInput = InputSystem.actions["Attack"].ReadValue<float>();
+
+        if (jumpInput > 0)
+        {
+
         }
     }
 

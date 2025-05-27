@@ -628,7 +628,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab46c3b70798c5d45a21655106e60084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraTarget: {fileID: 1409680868}
+  _cameraTarget: {fileID: 308188501}
   cameraTransform: {fileID: 330585546}
   distance: 5
   mouseSensitivity: 0.5
