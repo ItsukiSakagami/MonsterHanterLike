@@ -1,55 +1,83 @@
-using System.Net.NetworkInformation;
-using Unity.VisualScripting;
+using System.Xml;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Transform cameraHolder;
+
     [SerializeField] private float _moveSpeed = 0.01f;
-    [SerializeField] private float _jumpPower = 1000;
-    [SerializeField] private float _cameraSpeed = 0.01f;
+
+    [SerializeField] private float _jumpPower = 1000.0f;
 
     private Rigidbody _rb = null;
 
-    private bool _isHit = false;
+    [SerializeField] private float _groundedJumpDelay = 0.5f; // ← 地面に着いてからのジャンプ禁止時間
+    private float _firstgroundedJumpDelay;
+
+    private bool _isGrounded = false;
+
+    private bool _pressdJump = false;
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _firstgroundedJumpDelay = _groundedJumpDelay;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        Movement();
+        if (!_pressdJump)
+        {
+            Movement();
+        }
+        TryJump();
     }
 
     void Movement()
     {
-        var _move = InputSystem.actions["Move"].ReadValue<Vector2>();
+        Vector2 moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
 
-        if (_isHit)
+        Quaternion cameraRotation = Quaternion.Euler(0, cameraHolder.eulerAngles.y, 0);
+        Vector3 forward = cameraRotation * Vector3.forward;
+        Vector3 right = cameraRotation * Vector3.right;
+        Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
+
+        Vector3 velocity = moveDirection * _moveSpeed;
+        velocity.y = _rb.linearVelocity.y;
+
+        _rb.linearVelocity = velocity;
+    }
+
+    void TryJump()
+    {
+        float jumpInput = InputSystem.actions["Jump"].ReadValue<float>();
+
+        if (jumpInput != 0.0f && !_pressdJump)
         {
-            transform.Translate(_move.x * _moveSpeed, 0.0f, _move.y * _moveSpeed);
+            _rb.AddForce(Vector3.up * _jumpPower);
+            _pressdJump = true;
         }
 
-        var _jump = InputSystem.actions["Jump"].ReadValue<float>();
-
-        if (_isHit)
+        if (_pressdJump && _isGrounded)
         {
-            _rb.AddForce(0.0f, _jump * _jumpPower, 0.0f);
+            _groundedJumpDelay -= Time.deltaTime;
         }
 
-        var _camera = InputSystem.actions["Look"].ReadValue<Vector2>();
-
-        transform.Rotate(_camera.y * _cameraSpeed, 0.0f,_camera.x * _cameraSpeed);
-
+        if (_groundedJumpDelay <= 0.0f)
+        {
+            _groundedJumpDelay = _firstgroundedJumpDelay;
+            _pressdJump = false;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            _isHit = true;
-            Debug.Log("�n�ʂɐڒn");
+            _isGrounded = true;
         }
     }
 
@@ -57,8 +85,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            _isHit = false;
-            Debug.Log("�n�ʂɐڒn");
+            _isGrounded = false;
         }
     }
 }
