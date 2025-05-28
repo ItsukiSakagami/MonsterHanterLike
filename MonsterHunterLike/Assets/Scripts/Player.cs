@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float _jumpPower = 1000.0f;
 
     private Rigidbody _rb = null;
+    private Animator _anim;
 
     [SerializeField] private float _groundedJumpDelay = 0.5f; // ← 地面に着いてからのジャンプ禁止時間
     private float _firstgroundedJumpDelay;
@@ -18,14 +19,30 @@ public class Player : MonoBehaviour
 
     private bool _pressdJump = false;
 
+
+
+    private IState _currentState;
+
+    public void ChangeState(IState newState)
+    {
+        _currentState?.OnExit();
+
+        _currentState = newState;
+
+        _currentState.OnEnter();
+
+    }
+
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        _anim = GetComponent<Animator>();
         _firstgroundedJumpDelay = _groundedJumpDelay;
     }
 
     void FixedUpdate()
     {
+        _anim.Play("Idle1");
         if (!_pressdJump)
         {
             Movement();
@@ -100,7 +117,8 @@ public class Player : MonoBehaviour
 
         if (jumpInput > 0)
         {
-
+            _anim.Play("Attack1");
+            Debug.Log("a");
         }
     }
 
