@@ -3,21 +3,33 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform cameraHolder;
+    [SerializeField] private Transform _cameraHolder;
+    public Transform cameraHolder { get => _cameraHolder; }
 
     [SerializeField] private float _moveSpeed = 0.01f;
 
+    public float moveSpeed { get => _moveSpeed; }
+
     [SerializeField] private float _jumpPower = 1000.0f;
+    public float jumpPower { get => _jumpPower; }
 
     private Rigidbody _rb = null;
-    //private Animator _anim;
+    public Rigidbody rb { get => _rb; }
 
-    [SerializeField] private float _groundedJumpDelay = 0.5f; // ← 地面に着いてからのジャンプ禁止時間
+    private Animator _anim;
+    public Animator anim { get => _anim; }
+
+    public float _groundedJumpDelay = 0.5f; // ← 地面に着いてからのジャンプ禁止時間
+
     private float _firstgroundedJumpDelay;
+    public float firstgroundedJumpDelay { get => _firstgroundedJumpDelay; }
 
     private bool _isGrounded = false;
+    public bool isGrounded { get => _isGrounded; }
 
-    private bool _pressdJump = false;
+
+    [System.NonSerialized]
+    public bool _pressdJump = false;
 
 
 
@@ -36,13 +48,14 @@ public class Player : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        //_anim = GetComponent<Animator>();
+        _anim = GetComponent<Animator>();
+
         _firstgroundedJumpDelay = _groundedJumpDelay;
     }
 
     void FixedUpdate()
     {
-        //_anim.Play("Idle1");
+        _anim.Play("Idle1");
         if (!_pressdJump)
         {
             Movement();
@@ -72,7 +85,7 @@ public class Player : MonoBehaviour
 
         Vector2 moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
 
-        Quaternion cameraRotation = Quaternion.Euler(0, cameraHolder.eulerAngles.y, 0);
+        Quaternion cameraRotation = Quaternion.Euler(0, _cameraHolder.eulerAngles.y, 0);
         Vector3 forward = cameraRotation * Vector3.forward;
         Vector3 right = cameraRotation * Vector3.right;
         Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
@@ -117,7 +130,7 @@ public class Player : MonoBehaviour
 
         if (jumpInput > 0)
         {
-            //_anim.Play("Attack1");
+            _anim.Play("Attack1");
             Debug.Log("a");
         }
     }
