@@ -638,6 +638,63 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!1001 &970243930
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_Name
+      value: Frank_RPG_2Hand_Unity_Skin
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 26.774115
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.0000009536743
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.885141
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400048, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 659c7284dc1e16a4bbbf3d746380383e, type: 3}
 --- !u!1 &1055701049
 GameObject:
   m_ObjectHideFlags: 0
@@ -892,3 +949,4 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 1258296213}
   - {fileID: 939328347}
+  - {fileID: 970243930}
