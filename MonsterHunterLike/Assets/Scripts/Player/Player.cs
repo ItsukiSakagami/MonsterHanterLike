@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,6 +32,9 @@ public class Player : MonoBehaviour
     [System.NonSerialized]
     public bool _pressdJump = false;
 
+    private bool _isMoveing = false;
+    private bool _isAttack = false; //どうしてもバグる　アニメーションイベント使用
+
 
 
     private IState _currentState;
@@ -55,33 +59,31 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        _anim.Play("Idle1");
         if (!_pressdJump)
         {
             Movement();
         }
         TryJump();
 
-        Attack();
+        if (_isMoveing == false && !_isAttack && _isGrounded)
+        {
+            _anim.Play("Idle1");
+        }
     }
 
+    private void Update()
+    {
+        if (Input.GetButtonDown("Fire1"))  // Fire1はデフォルトでCtrlやコントローラーのボタンに割り当てられていることが多い
+        {
+            Debug.Log("a");
+        }
+    }
     void Movement()
     {
-        /*
-        Vector2 moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
-
-        Quaternion cameraRotation = Quaternion.Euler(0, cameraHolder.eulerAngles.y, 0);
-        Vector3 forward = cameraRotation * Vector3.forward;
-        Vector3 right = cameraRotation * Vector3.right;
-        Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
-
-        Vector3 velocity = moveDirection * _moveSpeed;
-        velocity.y = _rb.linearVelocity.y;
-
-        _rb.linearVelocity = velocity;
-        */
+        if (_isAttack)
+        {
+            return;
+        }
 
         Vector2 moveInput = InputSystem.actions["Move"].ReadValue<Vector2>();
 
@@ -93,6 +95,8 @@ public class Player : MonoBehaviour
         // 入力があるときだけ回転させる
         if (moveInput.sqrMagnitude > 0.01f) // ≒ moveInput != Vector2.zero
         {
+            _isMoveing = true;
+            _anim.Play("Run1");
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
         }
 
@@ -100,10 +104,19 @@ public class Player : MonoBehaviour
         velocity.y = _rb.linearVelocity.y;
 
         _rb.linearVelocity = velocity;
+        if (moveInput == Vector2.zero)
+        {
+            _isMoveing = false;
+        }
     }
 
     void TryJump()
     {
+        if (_isAttack)
+        {
+            return;
+        }
+
         float jumpInput = InputSystem.actions["Jump"].ReadValue<float>();
 
         if (jumpInput != 0.0f && !_pressdJump)
@@ -126,13 +139,24 @@ public class Player : MonoBehaviour
 
     void Attack()
     {
-        float jumpInput = InputSystem.actions["Attack"].ReadValue<float>();
+        _isAttack = true;
+        _anim.Play("Attack1");
+    }
 
-        if (jumpInput > 0)
-        {
-            _anim.Play("Attack1");
-            Debug.Log("a");
-        }
+    private void OnEnable()
+    {
+        InputSystem.actions["Attack"].performed += OnAttackPerformed;
+        _isAttack = true;
+    }
+
+    private void OnDisable()
+    {
+        InputSystem.actions["Attack"].performed -= OnAttackPerformed;
+    }
+
+    private void OnAttackPerformed(InputAction.CallbackContext context)
+    {
+        Attack();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -149,6 +173,11 @@ public class Player : MonoBehaviour
         {
             _isGrounded = false;
         }
+    }
+
+    public void ChangeAttackFlag()
+    {
+        _isAttack = false;
     }
 }
 
