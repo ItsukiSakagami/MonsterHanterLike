@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -74,6 +73,7 @@ public class Player : MonoBehaviour
         if (_animTime <= 0.0f)
         {
             _isAttack = false;
+            _weapon.tag = "Untagged";
             _animTime = _firstAnimTime;
         }
 
@@ -186,6 +186,7 @@ public class Player : MonoBehaviour
     public void AttackFlagFalse()
     {
         _isAttack = false;
+        _weapon.tag = "Untagged";
 
         if (_attackRequested)
         {
@@ -210,13 +211,13 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    //アニメーションイベント用
-    //public void AttackFlagFalse()
-    //{
-    //    _isAttack = false;
-    //}
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy") && _weapon.tag == "Attack")
+        {
+            UntaggedWeaponTag();
+        }
+    }
 
     //アニメーションイベント用
     public void UntaggedWeaponTag()
