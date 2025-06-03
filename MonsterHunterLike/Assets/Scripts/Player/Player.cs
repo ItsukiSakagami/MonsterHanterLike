@@ -7,11 +7,11 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform _cameraHolder;
     public Transform cameraHolder { get => _cameraHolder; }
 
-    [SerializeField] private float _moveSpeed = 0.01f;
+    [SerializeField] private float _moveSpeed = 10.0f;
 
     public float moveSpeed { get => _moveSpeed; }
 
-    [SerializeField] private float _jumpPower = 1000.0f;
+    [SerializeField] private float _jumpPower = 200.0f;
     public float jumpPower { get => _jumpPower; }
 
     private Rigidbody _rb = null;
@@ -34,10 +34,16 @@ public class Player : MonoBehaviour
 
     private bool _isMoveing = false;
     private bool _isAttack = false; //どうしてもバグる　アニメーションイベント使用
-
+    private bool _attackRequested = false;
+    [SerializeField]
+    private float _animTime = 0.5f;
+    private float _firstAnimTime;
 
 
     private IState _currentState;
+
+    [SerializeField]
+    private GameObject _weapon;
 
     public void ChangeState(IState newState)
     {
@@ -55,10 +61,22 @@ public class Player : MonoBehaviour
         _anim = GetComponent<Animator>();
 
         _firstgroundedJumpDelay = _groundedJumpDelay;
+
+        _firstAnimTime = _animTime;
     }
 
     void FixedUpdate()
     {
+        if (_isAttack)
+        {
+            _animTime -= Time.deltaTime;
+        }
+        if (_animTime <= 0.0f)
+        {
+            _isAttack = false;
+            _animTime = _firstAnimTime;
+        }
+
         if (!_pressdJump)
         {
             Movement();
@@ -68,14 +86,6 @@ public class Player : MonoBehaviour
         if (_isMoveing == false && !_isAttack && _isGrounded)
         {
             _anim.Play("Idle1");
-        }
-    }
-
-    private void Update()
-    {
-        if (Input.GetButtonDown("Fire1"))  // Fire1はデフォルトでCtrlやコントローラーのボタンに割り当てられていることが多い
-        {
-            Debug.Log("a");
         }
     }
     void Movement()
@@ -139,14 +149,22 @@ public class Player : MonoBehaviour
 
     void Attack()
     {
-        _isAttack = true;
+        if (_pressdJump)
+        {
+            return;
+        }
+            _isAttack = true;
+        _weapon.tag = "Attack";
         _anim.Play("Attack1");
+    }
+    void Attack2()
+    {
+        Debug.Log("連続攻撃");
     }
 
     private void OnEnable()
     {
         InputSystem.actions["Attack"].performed += OnAttackPerformed;
-        _isAttack = true;
     }
 
     private void OnDisable()
@@ -156,7 +174,24 @@ public class Player : MonoBehaviour
 
     private void OnAttackPerformed(InputAction.CallbackContext context)
     {
+        if (_isAttack)
+        {
+            _attackRequested = true;  // 攻撃中なら次の攻撃リクエストを予約
+            return;
+        }
+
         Attack();
+    }
+
+    public void AttackFlagFalse()
+    {
+        _isAttack = false;
+
+        if (_attackRequested)
+        {
+            _attackRequested = false;
+            Attack2();  // 攻撃終了後に予約してた攻撃を実行
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -175,9 +210,18 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void ChangeAttackFlag()
+
+    //アニメーションイベント用
+    //public void AttackFlagFalse()
+    //{
+    //    _isAttack = false;
+    //}
+
+
+    //アニメーションイベント用
+    public void UntaggedWeaponTag()
     {
-        _isAttack = false;
+        _weapon.tag = "Untagged";
     }
 }
 
