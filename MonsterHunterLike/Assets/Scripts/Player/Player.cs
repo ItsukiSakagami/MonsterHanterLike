@@ -27,6 +27,9 @@ public class Player : MonoBehaviour
     private bool _isGrounded = false;
     public bool isGrounded { get => _isGrounded; }
 
+    [SerializeField]
+    private float _flyVel = 0.7f;
+
 
     [System.NonSerialized]
     public bool _pressdJump = false;
@@ -77,16 +80,16 @@ public class Player : MonoBehaviour
             _animTime = _firstAnimTime;
         }
 
-        if (!_pressdJump)
-        {
-            Movement();
-        }
+        Movement();
+
         TryJump();
 
         if (_isMoveing == false && !_isAttack && _isGrounded)
         {
             _anim.Play("Idle1");
         }
+
+        Fly();
     }
     void Movement()
     {
@@ -118,7 +121,10 @@ public class Player : MonoBehaviour
         if (moveInput == Vector2.zero)
         {
             _isMoveing = false;
-            _rb.linearVelocity = Vector3.zero;
+            Vector3 newVel = _rb.linearVelocity;
+            newVel.x = 0.0f;
+            newVel.z = 0.0f;
+            _rb.linearVelocity = newVel;
         }
     }
 
@@ -155,13 +161,26 @@ public class Player : MonoBehaviour
         {
             return;
         }
-            _isAttack = true;
+        _isAttack = true;
         _weapon.tag = "Attack";
         _anim.Play("Attack1");
     }
     void Attack2()
     {
         Debug.Log("連続攻撃");
+    }
+
+    void Fly()
+    {
+        if (Input.GetKey(KeyCode.L))
+        {
+
+            _anim.Play("Fly");
+            Vector3 vel = _rb.linearVelocity;
+            vel.y = _flyVel;
+
+            _rb.linearVelocity = vel;
+        }
     }
 
     private void OnEnable()
