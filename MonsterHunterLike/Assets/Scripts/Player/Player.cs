@@ -92,6 +92,7 @@ public class Player : MonoBehaviour
     {
         if (_isAttack)
         {
+            _rb.linearVelocity = Vector3.zero;
             return;
         }
 
@@ -117,6 +118,7 @@ public class Player : MonoBehaviour
         if (moveInput == Vector2.zero)
         {
             _isMoveing = false;
+            _rb.linearVelocity = Vector3.zero;
         }
     }
 
