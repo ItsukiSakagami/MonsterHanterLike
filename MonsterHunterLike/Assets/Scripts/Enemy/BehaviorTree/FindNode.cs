@@ -22,7 +22,8 @@ public sealed class FindNode : Node
     public override NodeState Evaluate()
     {
         //“–‚½‚Á‚½‚à‚Ì‚ðŽæ“¾
-        Collider2D[] hits = Physics2D.OverlapCircleAll(_agent.position, _searchRadius);
+        //Collider2D[] hits = Physics2D.OverlapCircleAll(_agent.position, _searchRadius);
+        Collider[] hits = Physics.OverlapSphere(_agent.position, _searchRadius);
 
         //“–‚½‚Á‚½‚à‚Ì‚ð‘S‚Ä‰ñ‚·
         foreach (var hit in hits)
