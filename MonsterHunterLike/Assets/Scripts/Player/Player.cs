@@ -37,6 +37,7 @@ public class Player : MonoBehaviour
     private bool _isMoveing = false;
     private bool _isAttack = false; //どうしてもバグる　アニメーションイベント使用
     private bool _attackRequested = false;
+    private bool _isFlying = false;
     [SerializeField]
     private float _animTime = 0.5f;
     private float _firstAnimTime;
@@ -110,7 +111,10 @@ public class Player : MonoBehaviour
         if (moveInput.sqrMagnitude > 0.01f) // ≒ moveInput != Vector2.zero
         {
             _isMoveing = true;
-            _anim.Play("Run1");
+            if (!_isFlying)
+            {
+                _anim.Play("Run1");
+            }
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), 0.2f);
         }
 
@@ -172,14 +176,23 @@ public class Player : MonoBehaviour
 
     void Fly()
     {
-        if (Input.GetKey(KeyCode.L))
+        if (_isGrounded)
         {
+            return;
+        }
 
+        if (Input.GetKey(KeyCode.Mouse1))
+        {
+            _isFlying = true;
             _anim.Play("Fly");
             Vector3 vel = _rb.linearVelocity;
             vel.y = _flyVel;
 
             _rb.linearVelocity = vel;
+        }
+        else
+        {
+            _isFlying = false;
         }
     }
 
