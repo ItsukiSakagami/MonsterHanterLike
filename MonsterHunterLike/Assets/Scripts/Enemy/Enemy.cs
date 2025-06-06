@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         CreateNode();
 
         //シーケンスの登録
-        Sequence sequence = new Sequence(new List<Node> { _findNode, _rotateNode, _move2Node, _waitNode, _attackNode, _ifNode, ifElseNode });
+        Sequence sequence = new Sequence(new List<Node> { _findNode, _rotateNode, _waitNode, _move2Node, _waitNode, _attackNode, _ifNode, ifElseNode });
 
         //ルートノードにsequenceを設定
         _root = sequence;
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
     private void CreateNode()
     {
         //一秒待つノード
-        _waitNode = new WaitNode(3.0f);
+        _waitNode = new WaitNode(1.0f);
 
         //引数(自身,targetのtag,当たり判定の長さ)
         _findNode = new FindNode(transform, "Player", 10.0f);
