@@ -2829,13 +2829,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraTarget: {fileID: 1034945148}
-  cameraTransform: {fileID: 330585546}
-  distance: 5
+  _cameraTransform: {fileID: 330585546}
+  _defaultDistance: 5
+  _minDistance: 1.5
+  _zoomOutSpeed: 2
   mouseSensitivity: 10
-  pitchMin: -30
-  pitchMax: 60
-  smoothSpeed: 5
-  obstacleMask:
+  _pitchMin: -20
+  _pitchMax: 60
+  _smoothSpeed: 5
+  _obstacleMask:
     serializedVersion: 2
     m_Bits: 9
 --- !u!1001 &992449434

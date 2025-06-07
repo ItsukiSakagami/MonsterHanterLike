@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     public float _groundedJumpDelay = 0.5f; // ← 地面に着いてからのジャンプ禁止時間
 
     private float _initialGroundedJumpDelay;
-    public float firstgroundedJumpDelay { get => _initialGroundedJumpDelay; }
+    public float initialgroundedJumpDelay { get => _initialGroundedJumpDelay; }
 
     private bool _isGrounded = false;
     public bool isGrounded { get => _isGrounded; }
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
 
     [System.NonSerialized]
-    public bool _pressedJump = false; // 修正: "pressd" を "pressed" に変更  
+    public bool _pressedJump = false;
 
     [System.NonSerialized]
     public bool _pressdJump = false;
@@ -111,7 +111,7 @@ public class Player : MonoBehaviour
         Vector3 moveDirection = (forward * moveInput.y + right * moveInput.x).normalized;
 
         // 入力があるときだけ回転させる
-        if (moveInput.sqrMagnitude > 0.01f) // ≒ moveInput != Vector2.zero
+        if (moveInput.sqrMagnitude > 0.01f)
         {
             _isMoveing = true;
             if (!_isFlying)

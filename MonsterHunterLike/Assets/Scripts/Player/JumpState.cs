@@ -34,7 +34,7 @@ public class JumpState : IState
 
         if (_player._groundedJumpDelay <= 0.0f)
         {
-            _player._groundedJumpDelay = _player.firstgroundedJumpDelay;
+            _player._groundedJumpDelay = _player.initialgroundedJumpDelay;
             _player._pressdJump = false;
         }
     }

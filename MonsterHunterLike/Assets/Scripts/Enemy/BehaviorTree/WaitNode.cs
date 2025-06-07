@@ -40,6 +40,4 @@ public sealed class WaitNode : Node
         }
         return NodeState.RUNNING;
     }
-
-
 }
