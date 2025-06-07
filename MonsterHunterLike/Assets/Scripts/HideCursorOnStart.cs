@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class HideCursorOnStart : MonoBehaviour
 {
-    void Start()
+    void Awake()
     {
-        Cursor.visible = false;  // マウスカーソルを非表示にする
-        Cursor.lockState = CursorLockMode.Locked;  // カーソルの位置を固定（必要に応じて）
+        //マウスカーソルを非表示にする
+        Cursor.visible = false;
+
+        //カーソルの位置を固定（必要に応じて）
+        Cursor.lockState = CursorLockMode.Locked;
     }
 }

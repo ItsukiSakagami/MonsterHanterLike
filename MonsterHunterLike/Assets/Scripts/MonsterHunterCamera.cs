@@ -3,16 +3,24 @@ using UnityEngine.InputSystem;
 
 public class MonsterHunterCamera : MonoBehaviour
 {
-    [SerializeField] private Transform _cameraTarget;         // プレイヤー
-    [SerializeField] private Transform cameraTransform; // カメラ
+    [SerializeField]
+    private Transform _cameraTarget;         // プレイヤー
+    [SerializeField]
+    private Transform cameraTransform; // カメラ
 
-    [SerializeField] private float distance = 5f;       // カメラ距離
-    [SerializeField] private float mouseSensitivity = 3f;
-    [SerializeField] private float pitchMin = -20f;
-    [SerializeField] private float pitchMax = 60f;
+    [SerializeField]
+    private float distance = 5f;       // カメラ距離
+    [SerializeField]
+    private float mouseSensitivity = 3f;
+    [SerializeField]
+    private float pitchMin = -20f;
+    [SerializeField]
+    private float pitchMax = 60f;
 
-    [SerializeField] private float smoothSpeed = 5f;   // カメラ追従速度
-    [SerializeField] private LayerMask obstacleMask;   // 障害物判定レイヤー
+    [SerializeField]
+    private float smoothSpeed = 5f;   // カメラ追従速度
+    [SerializeField]
+    private LayerMask obstacleMask;   // 障害物判定レイヤー
 
     private float yaw = 0f;
     private float pitch = 10f;
@@ -21,11 +29,15 @@ public class MonsterHunterCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        // マウス入力を取得
         Vector2 lookInput = InputSystem.actions["Look"].ReadValue<Vector2>();
 
+        // 1フレームの入力値の上限を制限
+        lookInput = Vector2.ClampMagnitude(lookInput, 50f); 
+
         // マウス感度を掛けて角度更新
-        yaw += lookInput.x * mouseSensitivity;
-        pitch -= lookInput.y * mouseSensitivity;
+        yaw += lookInput.x * mouseSensitivity * Time.deltaTime;
+        pitch -= lookInput.y * mouseSensitivity * Time.deltaTime;
         pitch = Mathf.Clamp(pitch, pitchMin, pitchMax);
 
         // カメラの理想位置を計算
@@ -44,7 +56,5 @@ public class MonsterHunterCamera : MonoBehaviour
 
         // プレイヤーを注視
         cameraTransform.LookAt(_cameraTarget.position + Vector3.up * 1.5f);
-
-        // プレイヤーの向きは移動入力など別スクリプトで制御する想定
     }
 }

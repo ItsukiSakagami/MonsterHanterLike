@@ -21,8 +21,8 @@ public class Player : MonoBehaviour
 
     public float _groundedJumpDelay = 0.5f; // ← 地面に着いてからのジャンプ禁止時間
 
-    private float _firstgroundedJumpDelay;
-    public float firstgroundedJumpDelay { get => _firstgroundedJumpDelay; }
+    private float _initialGroundedJumpDelay;
+    public float firstgroundedJumpDelay { get => _initialGroundedJumpDelay; }
 
     private bool _isGrounded = false;
     public bool isGrounded { get => _isGrounded; }
@@ -30,6 +30,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _flyVel = 0.7f;
 
+
+    [System.NonSerialized]
+    public bool _pressedJump = false; // 修正: "pressd" を "pressed" に変更  
 
     [System.NonSerialized]
     public bool _pressdJump = false;
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour
     private bool _isFlying = false;
     [SerializeField]
     private float _animTime = 0.5f;
-    private float _firstAnimTime;
+    private float _initialAnimTime;
 
 
     private IState _currentState;
@@ -63,9 +66,9 @@ public class Player : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         _anim = GetComponent<Animator>();
 
-        _firstgroundedJumpDelay = _groundedJumpDelay;
+        _initialGroundedJumpDelay = _groundedJumpDelay;
 
-        _firstAnimTime = _animTime;
+        _initialAnimTime = _animTime;
     }
 
     void FixedUpdate()
@@ -78,7 +81,7 @@ public class Player : MonoBehaviour
         {
             _isAttack = false;
             _weapon.tag = "Untagged";
-            _animTime = _firstAnimTime;
+            _animTime = _initialAnimTime;
         }
 
         Movement();
@@ -154,7 +157,7 @@ public class Player : MonoBehaviour
 
         if (_groundedJumpDelay <= 0.0f)
         {
-            _groundedJumpDelay = _firstgroundedJumpDelay;
+            _groundedJumpDelay = _initialGroundedJumpDelay;
             _pressdJump = false;
         }
     }
@@ -247,7 +250,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") && _weapon.tag == "Attack")
+        if (other.CompareTag("Enemy") && _weapon.CompareTag("Attack"))
         {
             UntaggedWeaponTag();
         }

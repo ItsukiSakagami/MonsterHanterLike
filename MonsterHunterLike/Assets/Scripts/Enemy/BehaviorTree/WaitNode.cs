@@ -35,7 +35,6 @@ public sealed class WaitNode : Node
         //Žw’è‚µ‚½ŽžŠÔŒo‰ß‚µ‚½‚çˆ—
         if (_startTime >= _waitTime)
         {
-            Debug.Log(_waitTime + "Œo‰ß");
             _isWaiting = false;
             return NodeState.SUCCESS;
         }
