@@ -1616,10 +1616,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673825356}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1913,10 +1913,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 714924738}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2340,10 +2340,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878682051}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2391,10 +2391,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 899057011}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2453,6 +2453,11 @@ MonoBehaviour:
   _flyVel: 0
   _animTime: 1
   _weapon: {fileID: 712640319}
+--- !u!4 &899057016 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7326442542357897570, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
+  m_PrefabInstance: {fileID: 1284619773}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &906977214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2828,7 +2833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab46c3b70798c5d45a21655106e60084, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraTarget: {fileID: 1034945148}
+  _cameraTarget: {fileID: 899057016}
   _cameraTransform: {fileID: 330585546}
   _defaultDistance: 5
   _minDistance: 1.5
@@ -2917,10 +2922,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1034945143}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -2979,11 +2984,6 @@ MonoBehaviour:
   _flyVel: -5
   _animTime: 1
   _weapon: {fileID: 1065526750}
---- !u!4 &1034945148 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7326442542357897570, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
-  m_PrefabInstance: {fileID: 1895412273}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1065526750 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 208ccba51bfc4544e8c1003b0b29e6e9, type: 3}
@@ -3280,7 +3280,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7571436770658901826, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
       propertyPath: m_TagString
-      value: Untagged
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: 7991373657290914776, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
       propertyPath: m_Name
@@ -3288,7 +3288,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7991373657290914776, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7991373657290914776, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3977,10 +3981,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1493102518}
-  serializedVersion: 5
+  serializedVersion: 4
   m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -5594,7 +5598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7991373657290914776, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7991373657290914776, guid: e50d8f3bdcd56ad4b969dda5422e9099, type: 3}
       propertyPath: m_TagString
