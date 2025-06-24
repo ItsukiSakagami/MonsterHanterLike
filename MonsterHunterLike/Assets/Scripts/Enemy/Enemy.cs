@@ -32,6 +32,19 @@ public class Enemy : MonoBehaviour
     private float _runTime = 1.0f;
     private float _initrunTime;
 
+
+    [SerializeField]
+    private Color _newColor = Color.red;
+    private MeshRenderer _renderer;
+    private Color _defaultColor;
+
+    [SerializeField]
+    private float _timer = 1.0f;
+    private float _firstTimer;
+
+    private int _hp = 5;
+    private bool _isHit = false;
+
     void Start()
     {
         //ノードを生成
@@ -44,12 +57,32 @@ public class Enemy : MonoBehaviour
         _root = sequence;
 
         _initrunTime = _runTime;
+
+        _renderer = GetComponent<MeshRenderer>();
+        _firstTimer = _timer;
+        _defaultColor = _renderer.material.color;
     }
 
     void Update()
     {
         //ビヘイビアツリーを実行
         _root?.Evaluate();
+
+        if (_isHit)
+        {
+            _timer -= Time.deltaTime;
+        }
+        if (_timer <= 0.0f)
+        {
+            _isHit = false;
+            _renderer.material.color = _defaultColor;
+            _timer = _firstTimer;
+        }
+
+        if (_hp <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void CreateNode()
@@ -169,5 +202,16 @@ public class Enemy : MonoBehaviour
             // 回転中ならRUNNINGを返す
             return Node.NodeState.RUNNING;
         });
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Attack"))
+        {
+            Debug.Log("Hit");
+            _renderer.material.color = _newColor;
+            _hp--;
+            _isHit = true;
+        }
     }
 }
